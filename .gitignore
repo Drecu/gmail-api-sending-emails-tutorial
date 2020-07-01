@@ -251,6 +251,11 @@ paket-files/
 
 # JetBrains Rider
 .idea/
+
+.python-gmail-api-tutorial/.credentials
+.python-gmail-api-tutorial/test.xlsx
+.python-gmail-api-tutorial/__pycache__
+
 *.sln.iml
 
 # CodeRush

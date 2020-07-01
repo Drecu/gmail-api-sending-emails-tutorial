@@ -14,6 +14,7 @@ from email.mime.audio import MIMEAudio
 from email.mime.image import MIMEImage
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
+from email import encoders
 import mimetypes
 try:
     import argparse
@@ -46,6 +47,8 @@ class send_email:
       if content_type is None or encoding is not None:
         content_type = 'application/octet-stream'
       main_type, sub_type = content_type.split('/', 1)
+      print('Mime type main is: %s' % main_type)
+      print('Mime type sub is: %s' % sub_type)
       if main_type == 'text':
         fp = open(file, 'rb')
         msg = MIMEText(fp.read(), _subtype=sub_type)
@@ -58,6 +61,13 @@ class send_email:
         fp = open(file, 'rb')
         msg = MIMEAudio(fp.read(), _subtype=sub_type)
         fp.close()
+      elif sub_type == 'vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+        print('doin the right stuff')
+        fp = open(file, 'rb')
+        msg = MIMEBase('application','vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        msg.set_payload(fp.read())
+        fp.close()
+        encoders.encode_base64(msg)
       else:
         fp = open(file, 'rb')
         msg = MIMEBase(main_type, sub_type)
